@@ -3,7 +3,7 @@ package calculator;
 import java.util.Scanner;
 import java.util.Stack;
 
-public class Calculator {
+public class CalculatorRPN {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Entrez une expression RPN:");
@@ -25,14 +25,18 @@ public class Calculator {
         for (String token : tokens) {
             switch (token) {
                 case "+":
-                    if (stack.size() < 2) throw new Exception("Erreur: pas assez d'opérateurs.");
+                    if (stack.size() < 2) throw new Exception("Erreur: pas assez d'opérandes.");
                     stack.push(stack.pop() + stack.pop());
                     break;
                 case "-":
-
+                    if (stack.size() < 2) throw new Exception("Erreur: pas assez d'opérandes.");
+                    double b = stack.pop();
+                    double a = stack.pop();
+                    stack.push(a - b);
                     break;
                 case "*":
-
+                    if (stack.size() < 2) throw new Exception("Erreur: pas assez d'opérandes.");
+                    stack.push(stack.pop() * stack.pop());
                     break;
                 default:
                     try {
@@ -44,6 +48,7 @@ public class Calculator {
             }
         }
 
+        if (stack.size() != 1) throw new Exception("Expression RPN invalide");
         return stack.pop();
     }
 }
